@@ -1,0 +1,35 @@
+#Sample YML file to configure profiles and log4j2 config pattern files for different environments - local , dev, prod
+spring:
+  profiles:
+    active: local
+  application:
+    name: spring-log-yml
+  main:
+    banner-mode: off
+
+---
+
+spring:
+  profiles: local
+server:
+  port: 8090
+logging:
+  config: classpath:log4j2-local.yml
+
+---
+
+spring:
+  profiles: dev
+server:
+  port: 9090
+logging:
+  config: classpath:log4j2-dev.yml
+
+---
+
+spring:
+  profiles: prod
+server:
+  port: 8081
+logging:
+  config: classpath:log4j2-prod.yml

@@ -1,0 +1,38 @@
+Configuration:
+  name: prod
+  Properties:
+    Property:
+      name: log-path
+      value: "logs"
+  
+  Appenders:
+    Console:
+      name: logToConsole
+      PatternLayout:
+        Pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+
+    RollingFile:
+      - name: logToFile
+        fileName: ${log-path}/app_prod.log
+        filePattern: "logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz"
+        PatternLayout:
+          pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 10MB
+        DefaultRollOverStrategy:
+          max: 20
+
+  Loggers:
+    logger:
+      - name: com.spring.log
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: logToConsole
+          - ref: logToFile
+
+    Root:
+      level: error
+      AppenderRef:
+        ref: logToConsole
